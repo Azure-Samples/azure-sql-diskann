@@ -404,3 +404,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Custom
+.venv/
+*.local.sql
+.env
