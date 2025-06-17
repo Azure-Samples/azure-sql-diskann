@@ -33,21 +33,20 @@ indices = ['Exact Search', 'Approximate Search (DiskANN)']
 
 @st.cache_resource
 def get_db_connection():
-    server = os.getenv("MSSQL_SERVER")
-    database = os.getenv("MSSQL_DATABASE")
-    #print(f"Connecting to {server}, database {database}")
     
-    connection_string = f"Driver={{ODBC Driver 18 for SQL Server}};Server={server};Database={database};Connection Timeout=30;LongAsMax=yes;"
+    connection_string = os.getenv("MSSQL_CONNECTION_STRING")
     attrs_before={}
-    if (".database.windows.net" in server):
+    if (".database.windows.net" in connection_string):
         credential = DefaultAzureCredential(exclude_interactive_browser_credential=False)
         token_bytes = credential.get_token("https://database.windows.net/.default").token.encode("UTF-16-LE")
         token_struct = struct.pack(f'<I{len(token_bytes)}s', len(token_bytes), token_bytes)
         SQL_COPT_SS_ACCESS_TOKEN = 1256  # This connection option is defined by microsoft in msodbcsql.h
         attrs_before={SQL_COPT_SS_ACCESS_TOKEN: token_struct}        
-    else:
-        connection_string += ';TrustServerCertificate=yes;Trusted_Connection=yes'        
-    
+
+    # Make sure strings are sent as NVARCHAR(MAX) 
+    if "longasmax" not in connection_string:
+        connection_string += ";LongAsMax=yes"
+
     conn = pyodbc.connect(connection_string, attrs_before=attrs_before)
 
     return conn
