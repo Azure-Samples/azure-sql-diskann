@@ -102,7 +102,15 @@ Use script `04-search.sql` to run a sample search against the AirBnb data. The s
 
 1. Copy `.env.sample` into a `.env` file.
 2. Update the values of `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_API_KEY` based on the deployed values.
-3. Fill in the server and database value for `MSSQL_SERVER` and `MSSQL_DATABASE`. 
+3. Fill in the connection string `MSSQL_CONNECTION_STRING`. 
+
+If you are using the SQLCMD tool to run SQL Server, you can get the connection string by running:
+
+```bash
+sqlcmd config cs -d AirBnB_DiskANN
+```
+
+use the ODBC connection string to fill the `MSSQL_CONNECTION_STRING` value in the `.env` file. 
 
 ### Install dependencies
 
