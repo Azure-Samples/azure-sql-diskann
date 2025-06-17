@@ -109,8 +109,9 @@ Use script `04-search.sql` to run a sample search against the AirBnb data. The s
 Create a virtual environment and activate it:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+python -m venv .venv
+.\.venv\Scripts\activate # On Windows   
+# source .venv/bin/activate # On Linux or macOS
 ```
 
 then install required Python packages and streamlit application:
