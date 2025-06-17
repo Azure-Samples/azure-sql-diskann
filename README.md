@@ -94,31 +94,33 @@ At the end of the process the [DiskANN index](https://learn.microsoft.com/en-us/
 
 ### Run a sample search
 
-Use script '04-search.sql' to run a sample search against the AirBnb data. The script uses the `AI_GENERATE_EMBEDDINGS` function to generate an embedding for the search query and then uses the [VECTOR_SEARCH](https://learn.microsoft.com/en-us/sql/t-sql/functions/vector-search-transact-sql?view=sql-server-ver17) function to search for similar items in the database.
+Use script `04-search.sql` to run a sample search against the AirBnb data. The script uses the `AI_GENERATE_EMBEDDINGS` function to generate an embedding for the search query and then uses the [VECTOR_SEARCH](https://learn.microsoft.com/en-us/sql/t-sql/functions/vector-search-transact-sql?view=sql-server-ver17) function to search for similar items in the database.
 
 ## Streamlit Application
 
 ### Setting up the environment file
 
-Since the local app uses OpenAI models, you should first deploy it for the optimal experience.
-
 1. Copy `.env.sample` into a `.env` file.
-2. To use Azure OpenAI, fill in the values of `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_API_KEY` based on the deployed values.
-3. Fill in the connection string value for `AZURE_PG_CONNECTION`, You can find this in the [Azure Portal](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/connect-python?tabs=bash%2Cpassword#add-authentication-code)
+2. Update the values of `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_API_KEY` based on the deployed values.
+3. Fill in the server and database value for `MSSQL_SERVER` and `MSSQL_DATABASE`. 
 
 ### Install dependencies
-Install required Python packages and streamlit application:
 
-```python
-python3 -m venv .diskann
-source .diskann/bin/activate
+Create a virtual environment and activate it:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 ```
+
+then install required Python packages and streamlit application:
 
 ```bash
 pip install -r requirements.txt
 ```
 
 ### Running the application
+
 From root directory
 
 ```bash

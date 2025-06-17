@@ -1,3 +1,6 @@
+use AirBnB_DiskANN
+go
+
 -- Create database credentials to store API key
 if not exists(select * from sys.symmetric_keys where [name] = '##MS_DatabaseMasterKey##')
 begin
@@ -10,11 +13,6 @@ begin
 end
 create database scoped credential [https://<api_endpoint>.openai.azure.com/]
 with identity = 'HTTPEndpointHeaders', secret = '{"api-key": "<api_key>"}'; -- Add your Azure OpenAI Key
-go
-
--- Enable external rest endpoint used by get_embeddings procedure
-exec sp_configure 'external rest endpoint enabled', 1
-reconfigure
 go
 
 -- Create reference to OpenAI model

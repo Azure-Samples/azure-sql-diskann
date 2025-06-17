@@ -11,6 +11,7 @@ exec sp_configure 'external rest endpoint enabled', 1
 reconfigure
 go
 
+-- Create Tables
 drop table if exists dbo.listings;
 drop table if exists dbo.reviews;
 drop table if exists dbo.calendar;
