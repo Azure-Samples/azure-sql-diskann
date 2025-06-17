@@ -77,8 +77,8 @@ The string split is needed as the JSON is really a ["JSON Lines"](https://jsonli
 
 Make sure you have deployed an Azure OpenAI embedding model, such as `text-embedding-3-small`, and have the endpoint and API key available. Run the script `02-setup-embedding-model.sql` to set up the embedding model reference in SQL Server. Make sure to replace the placeholders 
 
-- <api_endpoint>: The endpoint for your Azure OpenAI instance, e.g., `https://your-openai-instance.openai.azure.com/`
-- <api_key>: Your Azure OpenAI API key.
+- `<api_endpoint>`: The endpoint for your Azure OpenAI instance, e.g., `https://your-openai-instance.openai.azure.com/`
+- `<api_key>`: Your Azure OpenAI API key.
 
 with your actual Azure OpenAI values.
 
