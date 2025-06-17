@@ -10,7 +10,7 @@ This sample shows how to use the DiskANN vector index in SQL Server 2025 along w
 - Invoking REST endpoints
 - JSON Data Type
 
-This sample has been inspired by the [DiskANN Postgres](https://github.com/Azure-Samples/DiskANN-demo) sample.
+This sample has been inspired by the [DiskANN Postgres](https://github.com/Azure-Samples/DiskANN-demo) sample. Full article with more details on this example is available here: [SQL Server 2025 CTP 2.1: DiskANN Improvements](https://devblogs.microsoft.com/azure-sql/sql-server-2025-ctp-2-1-diskann-improvements/)
 
 DiskANN is a leading vector indexing algorithm developed by [Microsoft Research](https://www.microsoft.com/en-us/research/project/project-akupara-approximate-nearest-neighbor-search-for-large-scale-semantic-search/) and used extensively at Microsoft in global services such as Bing and Microsoft 365. DiskANN enables developers to build highly accurate, performant and scalable Generative AI applications with low search latency and high accuracy.
 
