@@ -1,7 +1,14 @@
-create database AirBnB_DiskANN
+if db_id('AirBnB_DiskANN') is null begin
+    create database AirBnB_DiskANN
+end
 go
 
 use AirBnB_DiskANN
+go
+
+-- Enable external rest endpoint used by get_embeddings procedure
+exec sp_configure 'external rest endpoint enabled', 1
+reconfigure
 go
 
 drop table if exists dbo.listings;

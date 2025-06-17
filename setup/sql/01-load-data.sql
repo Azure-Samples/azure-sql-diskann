@@ -1,17 +1,35 @@
 use AirBnB_DiskANN
 go
 
-with cte as
-(
-    select   
-       cast(replace(j.value,'\\', '\') as json) as jl
-    from
-        openrowset(bulk 'C:\Work\git\azure-sql-diskann\setup\data\listings.json', single_clob) t
-    cross apply
-        string_split(t.BulkColumn, char(10), 1) j
-    where
-        len(j.value)> 1
-)
+/*
+    Load listings
+*/
+print 'Loading listings.json' 
+go
+
+drop table if exists #t;
+
+-- Get JSON from GitHub
+declare @response nvarchar(max);
+exec sp_invoke_external_rest_endpoint 
+    @url = 'https://raw.githubusercontent.com/Azure-Samples/azure-sql-diskann/refs/heads/main/setup/data/listings.json',
+    @method = 'GET',
+    @headers = '{"accept": "text/*"}',
+    @response = @response output;
+
+select   
+    cast(replace(jr.value, '\\', '\') as json) as j
+into
+    #t
+from
+    openjson(@response) o
+cross apply
+    string_split(o.[value], char(10), 1) jr
+where
+    o.[key] = 'result'
+and
+    len(jr.value)> 1;
+
 insert into 
     dbo.listings
 select
@@ -33,11 +51,11 @@ select
     [room_type],
     [amenities],
     [host_verifications],
-    cte.jl
+    j as [data]
 from
-    cte
+    #t
 cross apply
-    openjson(jl) with (
+    openjson(j) with (
         [id] int,
         [name] varchar(50),
         [street] varchar(50),
@@ -60,25 +78,42 @@ cross apply
     ) d
 go
 
-with cte as
-(
-    select   
-       cast(replace(j.value,'\\', '\') as json) as jl
-    from
-        openrowset(bulk 'C:\Work\git\azure-sql-diskann\setup\data\reviews.json', single_clob) t
-    cross apply
-        string_split(t.BulkColumn, char(10), 1) j
-    where
-        len(j.value)> 1
-)
+/*
+    Load reviews
+*/
+print 'Loading reviews.json' 
+go
+
+drop table if exists #t;
+
+declare @response nvarchar(max);
+exec sp_invoke_external_rest_endpoint 
+    @url = 'https://raw.githubusercontent.com/Azure-Samples/azure-sql-diskann/refs/heads/main/setup/data/reviews.json',
+    @method = 'GET',
+    @headers = '{"accept": "text/*"}',
+    @response = @response output;
+
+select   
+    cast(replace(jr.value, '\\', '\') as json) as j
+into
+    #t
+from
+    openjson(@response) o
+cross apply
+    string_split(o.[value], char(10), 1) jr
+where
+    o.[key] = 'result'
+and
+    len(jr.value)> 1;
+
 insert into 
     dbo.reviews
 select
    d.*
 from
-    cte
+    #t
 cross apply
-    openjson(jl) with (
+    openjson(j) with (
         id int,
         listing_id int,
         reviewer_id int,
@@ -88,28 +123,59 @@ cross apply
     ) d
 go
 
-with cte as
-(
-    select   
-       cast(replace(j.value,'\\', '\') as json) as jl
-    from
-        openrowset(bulk 'C:\Work\git\azure-sql-diskann\setup\data\calendar.json', single_clob) t
-    cross apply
-        string_split(t.BulkColumn, char(10), 1) j
-    where
-        len(j.value)> 1
-)
-insert into
-    dbo.calendar
-select
-   d.*
+
+/*
+    Load calendar
+*/
+print 'Loading calendar.json' 
+go
+
+drop table if exists #t;
+
+declare @response nvarchar(max);
+exec sp_invoke_external_rest_endpoint 
+    @url = 'https://raw.githubusercontent.com/Azure-Samples/azure-sql-diskann/refs/heads/main/setup/data/calendar.json',
+    @method = 'GET',
+    @headers = '{"accept": "text/*"}',
+    @response = @response output;
+
+print 'Loading json rows into table' 
+
+select   
+    cast(replace(jr.value, '\\', '\') as json) as j
+into
+    #t
 from
-    cte
+    openjson(@response) o
 cross apply
-    openjson(jl) with (
-        listing_id int,
-        [date] date,
-        price decimal(10,2),
-        available varchar(50)
-    ) d
+    string_split(o.[value], char(10), 1) jr
+where
+    o.[key] = 'result'
+and
+    len(jr.value)> 1;
+
+-- Load data in batched to avoid memory pressure on small installations
+declare @load int = 1;
+while (@load != 0)
+begin
+    drop table if exists #b ;
+    create table #b (j json);
+    insert into #b select * from (delete top (10000) #t output deleted.* from #t) b
+
+    insert into
+        dbo.calendar
+    select
+        d.*
+    from
+        #b as b
+    cross apply
+        openjson(j) with (
+            listing_id int,
+            [date] date,
+            price decimal(10,2),
+            available varchar(50)
+        ) d
+
+    set @load = @@rowcount
+end
 go
