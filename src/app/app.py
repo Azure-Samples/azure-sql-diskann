@@ -185,9 +185,9 @@ def render_search():
 
         st.write("---")
 
-        render_cta_link(url="https://aka.ms/pg-diskann-docs", label="Docs", font_awesome_icon="fa-book")
-        render_cta_link(url="https://aka.ms/pg-diskann-blog", label="Blog", font_awesome_icon="fa-windows")
-        render_cta_link(url="https://aka.ms/pg-diskann-demo", label="GitHub", font_awesome_icon="fa-github")
+        render_cta_link(url="https://learn.microsoft.com/en-us/sql/sql-server/what-s-new-in-sql-server-2025?view=sql-server-ver17&preserve-view=true#ctp-21", label="Docs", font_awesome_icon="fa-book")
+        render_cta_link(url="https://devblogs.microsoft.com/azure-sql/sql-server-2025-ctp-2-1-diskann-improvements/", label="Blog", font_awesome_icon="fa-windows")
+        render_cta_link(url="https://github.com/Azure-Samples/azure-sql-db-vector-search", label="GitHub", font_awesome_icon="fa-github")
 
 def render_search_result():
     """
