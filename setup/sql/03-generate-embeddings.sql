@@ -50,10 +50,10 @@ select * from [dbo].[listings_embeddings] where listing_id = 37234
 go
 
 -- Enable DiskANN (as it is in Preview)
-dbcc traceon(466, 474, 13981, -1)
+alter database scoped configuration set preview_features = on
 go
 
 -- Create Vector Index
 create vector index vix on [dbo].[listings_embeddings] (embedding)
-with (type='diskann', metric='cosine' )
+with (type='diskann', metric='cosine')
 go
