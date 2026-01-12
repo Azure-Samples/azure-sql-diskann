@@ -1,0 +1,12 @@
+[project]
+name = "azure-sql-diskann"
+version = "0.1.0"
+description = "Streamlit app for Azure SQL and DiskANN integration"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "mssql-python>=1.1.0",
+    "openai>=2.15.0",
+    "python-dotenv>=1.2.1",
+    "streamlit>=1.52.2",
+]

@@ -1,5 +1,0 @@
-streamlit
-openai
-python-dotenv
-pyodbc
-azure-identity

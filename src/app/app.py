@@ -5,8 +5,7 @@ import numpy as np
 import json
 from datetime import datetime
 import pandas as pd
-import pyodbc, struct
-from azure.identity import DefaultAzureCredential
+import mssql_python as mssql
 
 #do this to load the env variables
 from dotenv import load_dotenv
@@ -35,19 +34,7 @@ indices = ['Exact Search', 'Approximate Search (DiskANN)']
 def get_db_connection():
     
     connection_string = os.getenv("MSSQL_CONNECTION_STRING")
-    attrs_before={}
-    if (".database.windows.net" in connection_string):
-        credential = DefaultAzureCredential(exclude_interactive_browser_credential=False)
-        token_bytes = credential.get_token("https://database.windows.net/.default").token.encode("UTF-16-LE")
-        token_struct = struct.pack(f'<I{len(token_bytes)}s', len(token_bytes), token_bytes)
-        SQL_COPT_SS_ACCESS_TOKEN = 1256  # This connection option is defined by microsoft in msodbcsql.h
-        attrs_before={SQL_COPT_SS_ACCESS_TOKEN: token_struct}        
-
-    # Make sure strings are sent as NVARCHAR(MAX) 
-    if "longasmax" not in connection_string:
-        connection_string += ";LongAsMax=yes"
-
-    conn = pyodbc.connect(connection_string, attrs_before=attrs_before)
+    conn = mssql.connect(connection_string)
 
     return conn
 

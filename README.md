@@ -102,7 +102,7 @@ Use script `04-search.sql` to run a sample search against the AirBnb data. The s
 
 1. Copy `.env.sample` into a `.env` file.
 2. Update the values of `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_API_KEY` based on the deployed values.
-3. Fill in the connection string `MSSQL_CONNECTION_STRING`. 
+3. Fill in the connection string `MSSQL_CONNECTION_STRING`.
 
 If you are using the SQLCMD tool to run SQL Server, you can get the connection string by running:
 
@@ -110,22 +110,14 @@ If you are using the SQLCMD tool to run SQL Server, you can get the connection s
 sqlcmd config cs -d AirBnB_DiskANN
 ```
 
-use the ODBC connection string to fill the `MSSQL_CONNECTION_STRING` value in the `.env` file. 
+use the ODBC connection string to fill the `MSSQL_CONNECTION_STRING` value in the `.env` file.
 
 ### Install dependencies
 
-Create a virtual environment and activate it:
+Make sure to have [`uv` installed](https://docs.astral.sh/uv/getting-started/installation/). Then sync dependencies and activate a virtual environment:
 
 ```bash
-python -m venv .venv
-.\.venv\Scripts\activate # On Windows   
-# source .venv/bin/activate # On Linux or macOS
-```
-
-then install required Python packages and streamlit application:
-
-```bash
-pip install -r requirements.txt
+uv sync
 ```
 
 ### Running the application
@@ -134,8 +126,7 @@ From root directory
 
 ```bash
 cd src/app
-streamlit run app.py
+uv run -- streamlit run app.py
 ```
 
 When run locally run looking for website at http://localhost:8501/
-
