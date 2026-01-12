@@ -14,7 +14,7 @@ This sample has been inspired by the [DiskANN Postgres](https://github.com/Azure
 
 DiskANN is a leading vector indexing algorithm developed by [Microsoft Research](https://www.microsoft.com/en-us/research/project/project-akupara-approximate-nearest-neighbor-search-for-large-scale-semantic-search/) and used extensively at Microsoft in global services such as Bing and Microsoft 365. DiskANN enables developers to build highly accurate, performant and scalable Generative AI applications with low search latency and high accuracy.
 
-# Getting started
+## Getting started
 
 Make sure you have SQL Server 2025 on your machine. The easiest way to install SQL Server 2025 is using a container image and the new SQLCMD tool.
 
@@ -23,7 +23,7 @@ Make sure you have SQL Server 2025 on your machine. The easiest way to install S
 - [go-sqlcmd](https://learn.microsoft.com/en-us/sql/tools/sqlcmd/sqlcmd-utility?view=sql-server-ver17&tabs=go%2Cwindows%2Cwindows-support&pivots=cs1-bash#download-and-install-sqlcmd)
 - [VS Code](https://code.visualstudio.com/) with [MSSQL extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql)
 
-## Install SQL Server 2025
+### Install SQL Server 2025
 
 Using SQLCMD installing SQL Server 2025 is easy. Just run the following command in your terminal:
 
@@ -45,8 +45,7 @@ Server=tcp:127.0.0.1,1433;Initial Catalog=master;Persist Security Info=False;Use
 
 you can use the connection string [using VS Code to connect to the SQL Server instance](https://learn.microsoft.com/en-us/sql/tools/visual-studio-code-extensions/mssql/mssql-extension-visual-studio-code?view=sql-server-ver17).
 
-
-## Setup Seattle AirBnb Data 
+### Setup Seattle AirBnb Data 
 
 Create and populate the database using the script in the `setup/sql/` folder:
 
@@ -75,7 +74,7 @@ The string split is needed as the JSON is really a ["JSON Lines"](https://jsonli
 
 ### Setup embedding model
 
-Make sure you have deployed an Azure OpenAI embedding model, such as `text-embedding-3-small`, and have the endpoint and API key available. Run the script `02-setup-embedding-model.sql` to set up the embedding model reference in SQL Server. Make sure to replace the placeholders 
+Make sure you have deployed an Azure OpenAI embedding model, such as `text-embedding-3-small`, and have the endpoint and API key available. Run the script `02-setup-embedding-model.sql` to set up the embedding model reference in SQL Server. Make sure to replace the placeholders
 
 - `<api_endpoint>`: The endpoint for your Azure OpenAI instance, e.g., `https://your-openai-instance.openai.azure.com/`
 - `<api_key>`: Your Azure OpenAI API key.
