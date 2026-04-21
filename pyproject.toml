@@ -7,6 +7,6 @@ requires-python = ">=3.12"
 dependencies = [
     "mssql-python>=1.1.0",
     "openai>=2.15.0",
-    "python-dotenv>=1.2.1",
+    "python-dotenv>=1.2.2",
     "streamlit>=1.52.2",
 ]
